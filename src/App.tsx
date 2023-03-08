@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios("https://dummyjson.com/products");
+      const { data } = await axios("https://dummyjson.com/products?limit=10");
       setGetData(data);
     };
     getData();
@@ -51,17 +51,21 @@ function App() {
       <h2 style={{ textAlign: "center" }}>Welcome</h2>
       <Filter getData={getData} setProducts={setProducts} />
       <AnimatePresence>
-        <motion.div
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{ display: "flex", flexWrap: "wrap" }}
-        >
-          {products?.map((product) => (
-            <Product key={product.id} item={product} />
-          ))}
-        </motion.div>
+        {products?.map((product) => (
+          <motion.div
+            style={{
+              width: "33.33%",
+              display: "inline-block",
+            }}
+            layout={true}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            key={product.id}
+          >
+            <Product item={product} />
+          </motion.div>
+        ))}
       </AnimatePresence>
     </div>
   );
