@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Product from "./Product";
@@ -49,11 +50,19 @@ function App() {
     >
       <h2 style={{ textAlign: "center" }}>Welcome</h2>
       <Filter getData={getData} setProducts={setProducts} />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {products?.map((product) => (
-          <Product key={product.id} item={product} />
-        ))}
-      </div>
+      <AnimatePresence>
+        <motion.div
+          layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{ display: "flex", flexWrap: "wrap" }}
+        >
+          {products?.map((product) => (
+            <Product key={product.id} item={product} />
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

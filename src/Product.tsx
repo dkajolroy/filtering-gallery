@@ -1,7 +1,9 @@
+import { motion } from "framer-motion";
 import { ProductType } from "./App";
 function Product({ item }: { item: ProductType }) {
   return (
-    <div
+    <motion.div
+      layout
       style={{
         width: "33.33%",
       }}
@@ -22,7 +24,7 @@ function Product({ item }: { item: ProductType }) {
           alt="item"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
