@@ -1,7 +1,9 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Filter from "./Filter";
+import Product from "./Product";
 
-type DataType = {
+export type ProductType = {
   id: number;
   title: string;
   description: string;
@@ -14,9 +16,29 @@ type DataType = {
   thumbnail: string;
   images: string[];
 };
+export type DataType = {
+  limit: number;
+  products: ProductType[];
+  skip: number;
+  total: number;
+};
 
 function App() {
-  const [data, setData] = useState<DataType[]>([]);
+  const [products, setProducts] = useState<ProductType[]>();
+  const [getData, setGetData] = useState<DataType>();
+
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios("https://dummyjson.com/products");
+      setGetData(data);
+    };
+    getData();
+  }, []);
+  useEffect(() => {
+    if (getData) {
+      setProducts(getData.products);
+    }
+  }, [getData]);
 
   return (
     <div
@@ -26,7 +48,12 @@ function App() {
       }}
     >
       <h2 style={{ textAlign: "center" }}>Welcome</h2>
-      <Filter />
+      <Filter getData={getData} setProducts={setProducts} />
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {products?.map((product) => (
+          <Product key={product.id} item={product} />
+        ))}
+      </div>
     </div>
   );
 }

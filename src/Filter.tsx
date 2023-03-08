@@ -1,10 +1,47 @@
 import React from "react";
-function Filter() {
+import { DataType, ProductType } from "./App";
+type Props = {
+  getData: DataType | undefined;
+  setProducts: React.Dispatch<React.SetStateAction<ProductType[] | undefined>>;
+};
+
+function Filter({ getData, setProducts }: Props) {
+  const filter = (category: String) => {
+    if (category) {
+      const filterData = getData?.products.filter(
+        (item) => item.category === category
+      );
+      setProducts(filterData);
+    } else {
+      setProducts(getData?.products);
+    }
+  };
   return (
     <div>
-      <button style={ButtonStyle}>All</button>
-      <button style={ButtonStyle}>Electric</button>
-      <button style={ButtonStyle}>New</button>
+      <button onClick={() => filter("")} style={ButtonStyle}>
+        All
+      </button>
+      <button onClick={() => filter("smartphones")} style={ButtonStyle}>
+        Smartphone
+      </button>
+      <button onClick={() => filter("skincare")} style={ButtonStyle}>
+        Skincare
+      </button>
+      <button onClick={() => filter("groceries")} style={ButtonStyle}>
+        Groceries
+      </button>
+      <button onClick={() => filter("skincare")} style={ButtonStyle}>
+        Skincare
+      </button>
+      <button onClick={() => filter("home-decoration")} style={ButtonStyle}>
+        Home-decoration
+      </button>
+      <button onClick={() => filter("laptops")} style={ButtonStyle}>
+        Laptops
+      </button>
+      <button onClick={() => filter("fragrances")} style={ButtonStyle}>
+        Fragrances
+      </button>
     </div>
   );
 }
